@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Recruitment Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- PHẦN 1: TIÊU ĐỀ WEBSITE -->
+
+    <header>
+        <h1>Smart Recruitment Tracker</h1>
+        <p>Hệ thống quản lý tuyển thành viên CLB</p>
+        <span>Prototype - Dữ liệu giả lập</span>
+    </header>
+
+    <main class="container">
+
+        <!-- PHẦN 2: DASHBOARD THỐNG KÊ -->
+
+        <section class="dashboard">
+
+            <div class="stat-card">
+                <h3>Tổng ứng viên</h3>
+                <h2 id="total">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Chờ xét duyệt</h3>
+                <h2 id="pending">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Phỏng vấn</h3>
+                <h2 id="interview">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Trúng tuyển</h3>
+                <h2 id="accepted">0</h2>
+            </div>
+<div class="stat-card">
+    <h3>Tỷ lệ trúng tuyển</h3>
+    <h2 id="acceptanceRate">0%</h2>
+</div>
+
+<div class="stat-card">
+    <h3>Điểm trung bình</h3>
+    <h2 id="averageScore">0</h2>
+</div>
+        </section>
+
+        <!-- PHẦN 3: BIỂU ĐỒ -->
+
+        
+<!-- KHU VỰC BIỂU ĐỒ THỐNG KÊ -->
+
+<section class="analytics-grid">
+
+    <div class="chart-section">
+
+        <h2>Số lượng ứng viên theo ban</h2>
+
+        <div class="chart-container">
+            <canvas id="departmentChart"></canvas>
+        </div>
+
+    </div>
+
+    <div class="chart-section">
+
+        <h2>Cơ cấu trạng thái tuyển dụng</h2>
+
+        <div class="chart-container">
+            <canvas id="statusChart"></canvas>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PHỄU TUYỂN DỤNG -->
+
+<section class="chart-section">
+
+    <h2>Phễu tuyển dụng minh họa</h2>
+
+    <div id="recruitmentFunnel"></div>
+
+    <p class="analytics-note">
+        Phễu được ước tính từ trạng thái hiện tại,
+        không phải lịch sử chuyển vòng thực tế.
+    </p>
+
+</section>
+
+
+        <!-- PHẦN 4: TÌM KIẾM VÀ BỘ LỌC -->
+
+        <section class="toolbar">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Tìm kiếm ứng viên..."
+            >
+
+            <select id="departmentFilter">
+                <option value="">Tất cả các ban</option>
+                <option value="Truyền thông">Truyền thông</option>
+                <option value="Sự kiện">Sự kiện</option>
+                <option value="Chuyên môn">Chuyên môn</option>
+                <option value="Đối ngoại">Đối ngoại</option>
+                <option value="Nhân sự">Nhân sự</option>
+            </select>
+
+            <select id="statusFilter">
+                <option value="">Tất cả trạng thái</option>
+                <option value="Chờ xét duyệt">Chờ xét duyệt</option>
+                <option value="Qua vòng đơn">Qua vòng đơn</option>
+                <option value="Phỏng vấn">Phỏng vấn</option>
+                <option value="Trúng tuyển">Trúng tuyển</option>
+                <option value="Không đạt">Không đạt</option>
+            </select>
+
+            <button id="addButton">+ Thêm ứng viên</button>
+
+            <button id="exportButton">Xuất CSV</button>
+<button id="resetButton">Đặt lại bộ lọc</button>
+
+<select id="sortFilter">
+    <option value="default">Sắp xếp mặc định</option>
+    <option value="score-desc">Điểm cao đến thấp</option>
+    <option value="score-asc">Điểm thấp đến cao</option>
+    <option value="name-asc">Tên A-Z</option>
+</select>
+
+<select id="pageSize">
+    <option value="10">10 hồ sơ/trang</option>
+    <option value="20">20 hồ sơ/trang</option>
+    <option value="50">50 hồ sơ/trang</option>
+</select>
+
+        </section>
+
+        <!-- PHẦN 5: DANH SÁCH ỨNG VIÊN -->
+
+        <section class="table-section">
+
+            <h2>Danh sách ứng viên</h2>
+<p id="resultCount" class="result-count">
+    Hiển thị 100/100 ứng viên
+</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã ứng viên</th>
+                            <th>Họ và tên</th>
+                            <th>Ban ứng tuyển</th>
+                            <th>Điểm vòng đơn</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="applicantTable">
+                        <tr>
+                            <td colspan="6">
+                                Chưa có dữ liệu ứng viên
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+<div class="pagination">
+
+    <button id="prevPage">
+        ← Trang trước
+    </button>
+
+    <span id="pageInfo">
+        Trang 1/10
+    </span>
+
+    <button id="nextPage">
+        Trang sau →
+    </button>
+
+</div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Smart Recruitment Tracker | Personal Project 2026</p>
+    </footer>
+
+<!-- BIỂU MẪU THÊM VÀ CHỈNH SỬA ỨNG VIÊN -->
+
+<div id="applicantModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2 id="modalTitle">Thêm ứng viên mới</h2>
+
+        <form id="applicantForm">
+
+            <label for="applicantName">Họ và tên</label>
+            <input
+                type="text"
+                id="applicantName"
+                placeholder="Nhập họ và tên"
+                required
+            >
+
+            <label for="applicantDepartment">
+                Ban ứng tuyển
+            </label>
+
+            <select id="applicantDepartment" required>
+                <option value="Truyền thông">Truyền thông</option>
+                <option value="Sự kiện">Sự kiện</option>
+                <option value="Chuyên môn">Chuyên môn</option>
+                <option value="Đối ngoại">Đối ngoại</option>
+                <option value="Nhân sự">Nhân sự</option>
+            </select>
+
+            <label for="applicantScore">
+                Điểm vòng đơn
+            </label>
+
+            <input
+                type="number"
+                id="applicantScore"
+                min="0"
+                max="100"
+                required
+            >
+
+            <label for="applicantStatus">Trạng thái</label>
+
+            <select id="applicantStatus" required>
+                <option value="Chờ xét duyệt">Chờ xét duyệt</option>
+                <option value="Qua vòng đơn">Qua vòng đơn</option>
+                <option value="Phỏng vấn">Phỏng vấn</option>
+                <option value="Trúng tuyển">Trúng tuyển</option>
+                <option value="Không đạt">Không đạt</option>
+            </select>
+
+            <div class="modal-actions">
+
+                <button type="button" id="cancelButton">
+                    Hủy
+                </button>
+
+                <button type="submit" id="saveButton">
+                    Lưu hồ sơ
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
