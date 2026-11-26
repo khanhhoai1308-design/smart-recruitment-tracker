@@ -79,28 +79,28 @@ An interactive dashboard displaying recruitment
 statistics, department distribution, acceptance
 rates, and applicant status visualization.
 
-![Recruitment Dashboard](screenshots/dashboard.png)
+![Recruitment Dashboard](dashboard.png)
 
 ### 2. Applicant Management
 
 An applicant management form for creating and
 updating applicant profiles with input validation.
 
-![Applicant Management](screenshots/applicant-form.png)
+![Applicant Management](applicant-form.png)
 
 ### 3. Search, Filtering and Data Management
 
 Applicant search and multi-condition filtering
 for efficient recruitment data management.
 
-![Search and Filter](screenshots/search-filter.png)
+![Search and Filter](search-filter.png)
 
 ### 4. CSV Data Export
 
 Export recruitment data in CSV format for further
 analysis and reporting in Microsoft Excel.
 
-![CSV Export](screenshots/csv-export.png)
+![CSV Export](csv-export.png)
 
 ---
 
